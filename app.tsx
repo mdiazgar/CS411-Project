@@ -28,7 +28,10 @@ type Poi = {
     key: string,
     location: google.maps.LatLngLiteral,
     description?: string,
-    rating?: number
+    rating?: number //Google maps rating
+    ourRating?: number// User input ratings
+    
+
 }
 
 const locations: Poi[] = [
@@ -61,6 +64,9 @@ const App = () => {
                             <h2>{activePlace.key}</h2>
                             <p>{activePlace.description}</p>
                             <p>Rating: {activePlace.rating}</p>
+                            <p>Our Rating: {activePlace.ourRating}</p>
+
+                            
                         </div>
                     </InfoWindow>
                 )}
