@@ -1,6 +1,9 @@
+// App.tsx
+
 import React, { useRef, useState } from 'react';
 import { createRoot } from "react-dom/client";
-import { GoogleMap, LoadScript, Autocomplete, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import SearchBar from './components/SearchBar'; // Importing SearchBar component
 
 // Type definition for Points of Interest
 type Poi = { key: string, location: google.maps.LatLngLiteral };
@@ -21,9 +24,7 @@ const App = () => {
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
     const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>(null);
 
-    const handlePlaceChanged = () => {
-        const place = autocompleteRef.current?.getPlace();
-
+    const handlePlaceChanged = (place: google.maps.places.PlaceResult) => {
         if (!place || !place.geometry) {
             window.alert(`No details available for input: '${place?.name}'`);
             return;
@@ -54,37 +55,12 @@ const App = () => {
                         mapRef.current = map;
                     }}
                 >
-                    {/* Autocomplete Search Box */}
-                    <Autocomplete
-                        onLoad={(autocomplete) => {
-                            autocompleteRef.current = autocomplete;
-                            autocomplete.addListener('place_changed', handlePlaceChanged);
-                        }}
-                    >
-                        <input
-                            id="location-input"
-                            className="controls"
-                            type="text"
-                            placeholder="Search for places"
-                            style={{
-                                boxSizing: 'border-box',
-                                border: '1px solid transparent',
-                                width: '300px',
-                                height: '40px',
-                                marginTop: '10px',
-                                padding: '0 12px',
-                                borderRadius: '3px',
-                                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
-                                fontSize: '16px',
-                                outline: 'none',
-                                position: 'absolute',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                top: '10px',
-                                zIndex: 10,
-                            }}
-                        />
-                    </Autocomplete>
+                    {/* SearchBar Component */}
+                    <SearchBar
+                        autocompleteRef={autocompleteRef}
+                        mapRef={mapRef}
+                        onPlaceChanged={handlePlaceChanged}
+                    />
 
                     {/* Marker for Selected Place */}
                     {markerPosition && (
