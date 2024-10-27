@@ -23,6 +23,7 @@ const App = () => {
     const mapRef = useRef<google.maps.Map | null>(null);
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
     const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>(null);
+    const [userMarkers, setUserMarkers] = useState<Poi[]>([]); // State to track user-added markers
 
     const handlePlaceChanged = (place: google.maps.places.PlaceResult) => {
         if (!place || !place.geometry) {
@@ -43,6 +44,17 @@ const App = () => {
         }
     };
 
+    // Handle map click event to add new markers
+    const handleMapClick = (event: google.maps.MapMouseEvent) => {
+        if (event.latLng) {
+            const newMarker: Poi = {
+                key: `marker-${Date.now()}`,
+                location: event.latLng.toJSON(),
+            };
+            setUserMarkers((prev) => [...prev, newMarker]);
+        }
+    };
+
     return (
         <LoadScript googleMapsApiKey='AIzaSyD9P_qN7zXexNipsJRpeF2uyLAkU8igO_c' libraries={libraries}>
             <div style={{ height: '100vh', width: '100%' }}>
@@ -54,6 +66,7 @@ const App = () => {
                     onLoad={(map) => {
                         mapRef.current = map;
                     }}
+                    onClick={handleMapClick} // Add this line to handle user clicks
                 >
                     {/* SearchBar Component */}
                     <SearchBar
@@ -67,9 +80,14 @@ const App = () => {
                         <Marker position={markerPosition} />
                     )}
 
-                    {/* POI Markers */}
+                    {/* POI Markers for predefined locations */}
                     {locations.map((poi) => (
                         <Marker key={poi.key} position={poi.location} />
+                    ))}
+
+                    {/* User-Added Markers */}
+                    {userMarkers.map((marker) => (
+                        <Marker key={marker.key} position={marker.location} />
                     ))}
                 </GoogleMap>
             </div>
