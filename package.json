@@ -1,7 +1,11 @@
 {
   "type": "module",
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@googlemaps/markerclusterer": "^2.5.1",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
     "@react-google-maps/api": "^2.20.3",
     "@vis.gl/react-google-maps": "latest",
     "react": "^18.3.1",
@@ -15,6 +19,8 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "@types/react": "^18.0.1"
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/react-router-dom": "^5.3.3"
   }
 }
