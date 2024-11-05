@@ -11,23 +11,27 @@ import {
     Grid,
 } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate()
+
 
     const handleLogin = async () => {
+        console.log('Login attempt:', { email, password });
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
+            const response = await axios.post('http://localhost:5002/api/auth/login', {
                 email,
                 password,
             });
             console.log(response.data); // Should print success or token from backend
             alert("Login successful!");
+            navigate('/home');
         } catch (error) {
-            console.error("Error during login:", error);
+            console.error("Error during login:", error.response);
             alert("Login failed.");
         }
     };
