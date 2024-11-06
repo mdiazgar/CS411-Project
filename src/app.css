@@ -1,0 +1,17 @@
+
+#title {
+    text-align: center;
+}
+
+.buttons li{
+    background-color: thistle;
+    border-style: solid;
+    border-color: darkolivegreen;
+    display: flex;
+    flex-direction: row;
+}
+
+#listTitle {
+    display: flex;
+    padding: 0 2%;
+}
